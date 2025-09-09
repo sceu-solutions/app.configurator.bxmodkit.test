@@ -1,5 +1,5 @@
 ﻿Component;ID;Quantity;Description;regola;Price
-Controller;5551000;1;CTRL Traction 6.5 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = MONOPHASE;1500
+Controller;5551000;2;CTRL Traction 6.5 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = MONOPHASE;1500
 Controller;;;KIT floor;FLOORS = 5;500
 Controller;51993299;1;BX07 CCU - Parallel Interface - Socket C;" GRP_COUNTRY_INST = FR 
 and 
