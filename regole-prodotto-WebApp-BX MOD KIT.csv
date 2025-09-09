@@ -1,6 +1,6 @@
 ﻿Component;ID;Quantity;Description;regola;Price
 Controller;5551000;1;CTRL Traction 6.5 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = MONOPHASE;1500
-Controller;;1;KIT floor;FLOORS = 5;500
+Controller;;;KIT floor;FLOORS = 5;500
 Controller;5551001;1;CTRL Traction 11.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 11.1 and DOOR_DRIVE = MONOPHASE;1600
 Controller;5551002;1;CTRL Traction 16.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 16.1 and DOOR_DRIVE = MONOPHASE;1700
 Controller;5551003;1;CTRL Traction 6.5 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = TRIPHASE;1550
