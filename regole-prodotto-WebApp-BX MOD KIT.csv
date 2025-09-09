@@ -1,0 +1,158 @@
+﻿Component;ID;Quantity;Description;regola;Price
+Controller;5551000;1;CTRL Traction 6.5 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = MONOPHASE;1500
+Controller;5551001;1;CTRL Traction 11.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 11.1 and DOOR_DRIVE = MONOPHASE;1600
+Controller;5551002;1;CTRL Traction 16.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 16.1 and DOOR_DRIVE = MONOPHASE;1700
+Controller;5551003;1;CTRL Traction 6.5 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 6.5 and DOOR_DRIVE = TRIPHASE;1550
+Controller;5551004;1;CTRL Traction 11.1 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 11.1 and DOOR_DRIVE = TRIPHASE;1650
+Controller;5551005;1;CTRL Traction 16.1 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = (ES, FR) and KILOWATT = 16.1 and DOOR_DRIVE = TRIPHASE;1750
+Controller;5551006;1;CTRL Traction 6.5 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 6.5 and DOOR_DRIVE = MONOPHASE;1620
+Controller;5551007;1;CTRL Traction 11.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 11.1 and DOOR_DRIVE = MONOPHASE;1720
+Controller;5551008;1;CTRL Traction 16.1 Kilowatt with Monophase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 16.1 and DOOR_DRIVE = MONOPHASE;1840
+Controller;5551009;1;CTRL Traction 6.5 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 6.5 and DOOR_DRIVE = TRIPHASE;1670
+Controller;5551010;1;CTRL Traction 11.1 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 11.1 and DOOR_DRIVE = TRIPHASE;1810
+Controller;5551011;1;CTRL Traction 16.1 Kilowatt with Triphase Door Drive;DRIVE_TYPE = Traction and COUNTRY = IT and KILOWATT = 16.1 and DOOR_DRIVE = TRIPHASE;1900
+Cop;5552000;1;COP for 2 floors with MAIN FLOOR = 0 Designations: 0, 1;FLOORS = 2 and LOWEST_DESIGNATION = 0;300
+Cop;5552001;1;COP for 2 floors with MAIN FLOOR = 0 Designations: -1, 0;FLOORS = 2 and LOWEST_DESIGNATION = -1;300
+Cop;5552002;1;COP for 3 floors with MAIN FLOOR = 0 Designations: 0, 1, 2;FLOORS = 3 and LOWEST_DESIGNATION = 0;320
+Cop;5552003;1;COP for 3 floors with MAIN FLOOR = 0 Designations: -1, 0, 1;FLOORS = 3 and LOWEST_DESIGNATION = -1;320
+Cop;5552004;1;COP for 3 floors with MAIN FLOOR = 0 Designations: -2, -1, 0;FLOORS = 3 and LOWEST_DESIGNATION = -2;320
+Cop;5552005;1;COP for 4 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3;FLOORS = 4 and LOWEST_DESIGNATION = 0;330
+Cop;5552006;1;COP for 4 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2;FLOORS = 4 and LOWEST_DESIGNATION = -1;330
+Cop;5552007;1;COP for 4 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1;FLOORS = 4 and LOWEST_DESIGNATION = -2;330
+Cop;5552008;1;COP for 5 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4;FLOORS = 5 and LOWEST_DESIGNATION = 0;340
+Cop;5552009;1;COP for 5 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3;FLOORS = 5 and LOWEST_DESIGNATION = -1;340
+Cop;5552010;1;COP for 5 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2;FLOORS = 5 and LOWEST_DESIGNATION = -2;340
+Cop;5552011;1;COP for 6 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5;FLOORS = 6 and LOWEST_DESIGNATION = 0;350
+Cop;5552012;1;COP for 6 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4;FLOORS = 6 and LOWEST_DESIGNATION = -1;350
+Cop;5552013;1;COP for 6 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3;FLOORS = 6 and LOWEST_DESIGNATION = -2;350
+Cop;5552014;1;COP for 7 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6;FLOORS = 7 and LOWEST_DESIGNATION = 0;360
+Cop;5552015;1;COP for 7 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5;FLOORS = 7 and LOWEST_DESIGNATION = -1;360
+Cop;5552016;1;COP for 7 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4;FLOORS = 7 and LOWEST_DESIGNATION = -2;360
+Cop;5552017;1;COP for 8 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7;FLOORS = 8 and LOWEST_DESIGNATION = 0;370
+Cop;5552018;1;COP for 8 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6;FLOORS = 8 and LOWEST_DESIGNATION = -1;370
+Cop;5552019;1;COP for 8 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5;FLOORS = 8 and LOWEST_DESIGNATION = -2;370
+Cop;5552020;1;COP for 9 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8;FLOORS = 9 and LOWEST_DESIGNATION = 0;380
+Cop;5552021;1;COP for 9 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7;FLOORS = 9 and LOWEST_DESIGNATION = -1;380
+Cop;5552022;1;COP for 9 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6;FLOORS = 9 and LOWEST_DESIGNATION = -2;380
+Cop;5552023;1;COP for 10 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;FLOORS = 10 and LOWEST_DESIGNATION = 0;390
+Cop;5552024;1;COP for 10 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8;FLOORS = 10 and LOWEST_DESIGNATION = -1;390
+Cop;5552025;1;COP for 10 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7;FLOORS = 10 and LOWEST_DESIGNATION = -2;390
+Cop;5552026;1;COP for 11 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;FLOORS = 11 and LOWEST_DESIGNATION = 0;400
+Cop;5552027;1;COP for 11 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;FLOORS = 11 and LOWEST_DESIGNATION = -1;400
+Cop;5552028;1;COP for 11 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8;FLOORS = 11 and LOWEST_DESIGNATION = -2;400
+Cop;5552029;1;COP for 12 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;FLOORS = 12 and LOWEST_DESIGNATION = 0;410
+Cop;5552030;1;COP for 12 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;FLOORS = 12 and LOWEST_DESIGNATION = -1;410
+Cop;5552031;1;COP for 12 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9;FLOORS = 12 and LOWEST_DESIGNATION = -2;410
+Cop;5552032;1;COP for 13 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;FLOORS = 13 and LOWEST_DESIGNATION = 0;420
+Cop;5552033;1;COP for 13 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;FLOORS = 13 and LOWEST_DESIGNATION = -1;420
+Cop;5552034;1;COP for 13 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;FLOORS = 13 and LOWEST_DESIGNATION = -2;420
+Cop;5552035;1;COP for 14 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;FLOORS = 14 and LOWEST_DESIGNATION = 0;430
+Cop;5552036;1;COP for 14 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;FLOORS = 14 and LOWEST_DESIGNATION = -1;430
+Cop;5552037;1;COP for 14 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;FLOORS = 14 and LOWEST_DESIGNATION = -2;430
+Cop;5552038;1;COP for 15 floors with MAIN FLOOR = 0 Designations: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;FLOORS = 15 and LOWEST_DESIGNATION = 0;440
+Cop;5552039;1;COP for 15 floors with MAIN FLOOR = 0 Designations: -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;FLOORS = 15 and LOWEST_DESIGNATION = -1;440
+Cop;5552040;1;COP for 15 floors with MAIN FLOOR = 0 Designations: -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;FLOORS = 15 and LOWEST_DESIGNATION = -2;440
+Lop;5553000;1;Additional LOPs and Connection cables for 2 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 2;100
+Lop;5553001;1;Additional LOPs and Connection cables for 3 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 3;110
+Lop;5553002;1;Additional LOPs and Connection cables for 4 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 4;120
+Lop;5553003;1;Additional LOPs and Connection cables for 5 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 5;130
+Lop;5553004;1;Additional LOPs and Connection cables for 6 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 6;140
+Lop;5553005;1;Additional LOPs and Connection cables for 7 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 7;150
+Lop;5553006;1;Additional LOPs and Connection cables for 8 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 8;160
+Lop;5553007;1;Additional LOPs and Connection cables for 9 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 9;170
+Lop;5553008;1;Additional LOPs and Connection cables for 10 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 10;180
+Lop;5553009;1;Additional LOPs and Connection cables for 11 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 11;190
+Lop;5553010;1;Additional LOPs and Connection cables for 12 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 12;200
+Lop;5553011;1;Additional LOPs and Connection cables for 13 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 13;210
+Lop;5553012;1;Additional LOPs and Connection cables for 14 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 14;220
+Lop;5553013;1;Additional LOPs and Connection cables for 15 floors (Display only at MAIN FLOOR);COUNTRY = (ES, IT) and CONTROL_SYSTEM = PI and FLOORS = 15;230
+Lop;5553014;1;Additional LOPs and Connection cables for 2 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 2;105
+Lop;5553015;1;Additional LOPs and Connection cables for 3 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 3;115
+Lop;5553016;1;Additional LOPs and Connection cables for 4 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 4;125
+Lop;5553017;1;Additional LOPs and Connection cables for 5 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 5;135
+Lop;5553018;1;Additional LOPs and Connection cables for 6 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 6;145
+Lop;5553019;1;Additional LOPs and Connection cables for 7 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 7;155
+Lop;5553020;1;Additional LOPs and Connection cables for 8 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 8;165
+Lop;5553021;1;Additional LOPs and Connection cables for 9 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 9;175
+Lop;5553022;1;Additional LOPs and Connection cables for 10 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 10;185
+Lop;5553023;1;Additional LOPs and Connection cables for 11 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 11;195
+Lop;5553024;1;Additional LOPs and Connection cables for 12 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 12;205
+Lop;5553025;1;Additional LOPs and Connection cables for 13 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 13;215
+Lop;5553026;1;Additional LOPs and Connection cables for 14 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 14;225
+Lop;5553027;1;Additional LOPs and Connection cables for 15 floors (Display on ALL FLOORS);COUNTRY = (ES, IT) and CONTROL_SYSTEM = KA and FLOORS = 15;235
+Lop;5553028;1;Additional LOPs & LIP and Connection cables for 2 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 2;108
+Lop;5553029;1;Additional LOPs & LIP and Connection cables for 3 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 3;116
+Lop;5553030;1;Additional LOPs & LIP and Connection cables for 4 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 4;124
+Lop;5553031;1;Additional LOPs & LIP and Connection cables for 5 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 5;132
+Lop;5553032;1;Additional LOPs & LIP and Connection cables for 6 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 6;140
+Lop;5553033;1;Additional LOPs & LIP and Connection cables for 7 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 7;148
+Lop;5553034;1;Additional LOPs & LIP and Connection cables for 8 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 8;156
+Lop;5553035;1;Additional LOPs & LIP and Connection cables for 9 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 9;164
+Lop;5553036;1;Additional LOPs & LIP and Connection cables for 10 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 10;172
+Lop;5553037;1;Additional LOPs & LIP and Connection cables for 11 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 11;180
+Lop;5553038;1;Additional LOPs & LIP and Connection cables for 12 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 12;188
+Lop;5553039;1;Additional LOPs & LIP and Connection cables for 13 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 13;196
+Lop;5553040;1;Additional LOPs & LIP and Connection cables for 14 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 14;204
+Lop;5553041;1;Additional LOPs & LIP and Connection cables for 15 floors (Display only at MAIN FLOOR coonected to LIP);COUNTRY = FR and CONTROL_SYSTEM = PI and FLOORS = 15;212
+Lop;5553042;1;Additional LOPs & LIPs and Connection cables for 2 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 2;112
+Lop;5553043;1;Additional LOPs & LIPs and Connection cables for 3 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 3;120
+Lop;5553044;1;Additional LOPs & LIPs and Connection cables for 4 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 4;128
+Lop;5553045;1;Additional LOPs & LIPs and Connection cables for 5 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 5;136
+Lop;5553046;1;Additional LOPs & LIPs and Connection cables for 6 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 6;144
+Lop;5553047;1;Additional LOPs & LIPs and Connection cables for 7 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 7;152
+Lop;5553048;1;Additional LOPs & LIPs and Connection cables for 8 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 8;160
+Lop;5553049;1;Additional LOPs & LIPs and Connection cables for 9 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 9;168
+Lop;5553050;1;Additional LOPs & LIPs and Connection cables for 10 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 10;176
+Lop;5553051;1;Additional LOPs & LIPs and Connection cables for 11 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 11;184
+Lop;5553052;1;Additional LOPs & LIPs and Connection cables for 12 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 12;192
+Lop;5553053;1;Additional LOPs & LIPs and Connection cables for 13 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 13;200
+Lop;5553054;1;Additional LOPs & LIPs and Connection cables for 14 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 14;208
+Lop;5553055;1;Additional LOPs & LIPs and Connection cables for 15 floors (LOPs coonected to LIPs);COUNTRY = FR and CONTROL_SYSTEM = KA and FLOORS = 15;216
+Shaft;5554000;1;Shaft Information materials for 1 Access side Machine Room A;DRIVE_TYPE = Traction and MACHINE_ROOM = A;230
+Shaft;5554001;1;Shaft Information materials for 1 Access side Machine Room B;DRIVE_TYPE = Traction and MACHINE_ROOM = B;180
+Shaft;5555000;1;Shaft light materials for 1 Access side Machine Room A;DRIVE_TYPE = Traction and MACHINE_ROOM = A;120
+Shaft;5555001;1;Shaft light materials for 1 Access side Machine Room B;DRIVE_TYPE = Traction and MACHINE_ROOM = B;102
+Machine room;5556000;1;Machine Room Light Machine Room A;MACHINE_ROOM = A;108
+Machine room;5556001;1;Machine Room Light Machine Room B;MACHINE_ROOM = B;101
+Travelling;5557000;1;Travelling Cable Door Drive MONOPHASE for 2 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 2;80
+Travelling;5557001;1;Travelling Cable Door Drive MONOPHASE for 3 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 3;88
+Travelling;5557002;1;Travelling Cable Door Drive MONOPHASE for 4 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 4;96
+Travelling;5557003;1;Travelling Cable Door Drive MONOPHASE for 5 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 5;104
+Travelling;5557004;1;Travelling Cable Door Drive MONOPHASE for 6 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 6;112
+Travelling;5557005;1;Travelling Cable Door Drive MONOPHASE for 7 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 7;120
+Travelling;5557006;1;Travelling Cable Door Drive MONOPHASE for 8 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 8;128
+Travelling;5557007;1;Travelling Cable Door Drive MONOPHASE for 9 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 9;136
+Travelling;5557008;1;Travelling Cable Door Drive MONOPHASE for 10 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 10;144
+Travelling;5557009;1;Travelling Cable Door Drive MONOPHASE for 11 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 11;152
+Travelling;5557010;1;Travelling Cable Door Drive MONOPHASE for 12 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 12;160
+Travelling;5557011;1;Travelling Cable Door Drive MONOPHASE for 13 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 13;168
+Travelling;5557012;1;Travelling Cable Door Drive MONOPHASE for 14 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 14;176
+Travelling;5557013;1;Travelling Cable Door Drive MONOPHASE for 15 Floors;DOOR_DRIVE = MONOPHASE and FLOORS = 15;184
+Travelling;5557014;1;Travelling Cable Door Drive Triphase for 2 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 2;90
+Travelling;5557015;1;Travelling Cable Door Drive Triphase for 3 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 3;98
+Travelling;5557016;1;Travelling Cable Door Drive Triphase for 4 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 4;106
+Travelling;5557017;1;Travelling Cable Door Drive Triphase for 5 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 5;114
+Travelling;5557018;1;Travelling Cable Door Drive Triphase for 6 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 6;122
+Travelling;5557019;1;Travelling Cable Door Drive Triphase for 7 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 7;130
+Travelling;5557020;1;Travelling Cable Door Drive Triphase for 8 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 8;138
+Travelling;5557021;1;Travelling Cable Door Drive Triphase for 9 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 9;146
+Travelling;5557022;1;Travelling Cable Door Drive Triphase for 10 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 10;154
+Travelling;5557023;1;Travelling Cable Door Drive Triphase for 11 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 11;162
+Travelling;5557024;1;Travelling Cable Door Drive Triphase for 12 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 12;170
+Travelling;5557025;1;Travelling Cable Door Drive Triphase for 13 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 13;178
+Travelling;5557026;1;Travelling Cable Door Drive Triphase for 14 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 14;186
+Travelling;5557027;1;Travelling Cable Door Drive Triphase for 15 Floors;DOOR_DRIVE = TRIPHASE and FLOORS = 15;194
+Travelling;5557028;1;Travelling Cable for DM236 2 Floors;COUNTRY = IT and FLOORS = 2;70
+Travelling;5557029;1;Travelling Cable for DM236 3 Floors;COUNTRY = IT and FLOORS = 3;78
+Travelling;5557030;1;Travelling Cable for DM236 4 Floors;COUNTRY = IT and FLOORS = 4;86
+Travelling;5557031;1;Travelling Cable for DM236 5 Floors;COUNTRY = IT and FLOORS = 5;94
+Travelling;5557032;1;Travelling Cable for DM236 6 Floors;COUNTRY = IT and FLOORS = 6;102
+Travelling;5557033;1;Travelling Cable for DM236 7 Floors;COUNTRY = IT and FLOORS = 7;110
+Travelling;5557034;1;Travelling Cable for DM236 8 Floors;COUNTRY = IT and FLOORS = 8;118
+Travelling;5557035;1;Travelling Cable for DM236 9 Floors;COUNTRY = IT and FLOORS = 9;126
+Travelling;5557036;1;Travelling Cable for DM236 10 Floors;COUNTRY = IT and FLOORS = 10;134
+Travelling;5557037;1;Travelling Cable for DM236 11 Floors;COUNTRY = IT and FLOORS = 11;142
+Travelling;5557038;1;Travelling Cable for DM236 12 Floors;COUNTRY = IT and FLOORS = 12;150
+Travelling;5557039;1;Travelling Cable for DM236 13 Floors;COUNTRY = IT and FLOORS = 13;158
+Travelling;5557040;1;Travelling Cable for DM236 14 Floors;COUNTRY = IT and FLOORS = 14;166
+Travelling;5557041;1;Travelling Cable for DM236 15 Floors;COUNTRY = IT and FLOORS = 15;174

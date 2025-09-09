@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variant Configurator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- App Header -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-red-600 mb-2" style="color: #DC2626;">Schindler</div>
+                <h1 class="text-3xl font-bold text-gray-800">BX MOD KIT</h1>
+            </div>
+        </div>
+
+        <!-- Upload Section - Hidden by default, shown only on error -->
+        <div id="upload-section" class="hidden bg-white rounded-2xl shadow-xl p-8 mb-8 transition-all duration-500">
+            
+            <!-- Error message -->
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="flex items-center mb-2">
+                    <div class="text-red-600 text-xl mr-2">⚠️</div>
+                    <div class="font-semibold text-red-800">CSV File Not Found</div>
+                </div>
+                <div id="csv-status" class="text-sm text-red-600">The file "regole-prodotto-WebApp-BX MOD KIT.csv" was not found in the application directory.</div>
+            </div>
+            
+            <!-- Manual upload -->
+            <div id="manual-upload-section">
+                <div id="drop-zone" class="border-2 border-dashed border-indigo-300 rounded-lg p-12 text-center cursor-pointer bg-indigo-50 hover:bg-indigo-100 transition-colors">
+                    <div class="text-indigo-600 text-6xl mb-4">📁</div>
+                    <p class="text-xl text-indigo-700 font-medium mb-2">Drag CSV file here</p>
+                    <p class="text-indigo-600 mb-4">or click to select "regole-prodotto-WebApp-BX MOD KIT.csv"</p>
+                    <input type="file" id="file-input" class="hidden" accept=".csv">
+                    <button id="select-file-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        Select File
+                    </button>
+                </div>
+            </div>
+            
+            <div id="loading" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                <p class="mt-2 text-gray-600">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Data Section -->
+        <div id="data-section" class="hidden">
+            <!-- Dynamic Layout Container -->
+            <div id="layout-container" class="flex gap-6 min-h-screen">
+                <!-- Left Column - Filters (40%) -->
+                <div id="filters-column" class="w-[40%] flex flex-col">
+                    <!-- Commission Number Field -->
+                    <div class="bg-white rounded-2xl shadow-xl p-6 mb-4">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">📋 Commission Number</h3>
+                        <input type="text" id="commission-number" placeholder="Enter commission number..." 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-colors">
+                    </div>
+                    
+                    <!-- Filter Controls -->
+                    <div class="bg-white rounded-2xl shadow-xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">🎛️ Rule Filters</h3>
+                            <button id="reset-filters" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium text-sm">
+                                🔄 Reset
+                            </button>
+                        </div>
+                        <div id="filter-container" class="space-y-4 pb-4">
+                            <div class="text-gray-500 text-center py-8">
+                                Loading filters...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Debug Panel - Hidden -->
+                    <div id="debug-panel" class="hidden bg-gray-900 text-green-400 rounded-2xl shadow-xl p-4 mt-4 font-mono text-xs">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-bold text-white">🐛 Debug Console</h3>
+                            <button id="clear-debug" class="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700">Clear</button>
+                        </div>
+                        <div id="debug-info" class="max-h-48 overflow-y-auto whitespace-pre-wrap bg-black p-2 rounded border"></div>
+                        
+                        <!-- Debug Status -->
+                        <div class="mt-3 p-2 bg-gray-800 rounded">
+                            <div class="text-white text-xs mb-1">Status:</div>
+                            <div id="debug-status" class="text-yellow-400 text-xs"></div>
+                        </div>
+                        
+                        <!-- Filter State -->
+                        <div class="mt-2 p-2 bg-gray-800 rounded">
+                            <div class="text-white text-xs mb-1">Active Filters:</div>
+                            <div id="active-filters-debug" class="text-cyan-400 text-xs"></div>
+                        </div>
+                        
+                        <!-- Available Filters -->
+                        <div class="mt-2 p-2 bg-gray-800 rounded">
+                            <div class="text-white text-xs mb-1">Available Filters:</div>
+                            <div id="available-filters-debug" class="text-green-400 text-xs max-h-24 overflow-y-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Results Table (60%) -->
+                <div id="results-column" class="w-[60%] flex flex-col">
+                    <!-- Controls -->
+                    <div class="bg-white rounded-2xl shadow-xl p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold text-gray-800">📋 Materials List</h3>
+                            <div class="flex items-center gap-4">
+                                <button id="toggle-regola" class="px-3 py-1 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                                    📋 Show Rules
+                                </button>
+                                <span id="row-count" class="text-gray-600 font-medium"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead id="table-header" class="bg-red-600 text-white sticky top-0">
+                                    <!-- Dynamic headers will be added here -->
+                                </thead>
+                                <tbody id="table-body" class="divide-y divide-gray-200">
+                                    <!-- Dynamic rows will be added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Price Summary -->
+                        <div id="price-summary" class="bg-green-50 px-6 py-4 border-t border-green-200">
+                            <div class="flex items-center justify-between">
+                                <div class="text-green-800 font-medium">
+                                    <span id="visible-count">0</span> materials displayed
+                                </div>
+                                <div class="text-green-800 font-bold text-lg">
+                                    Page Total: € <span id="total-price">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t">
+                            <button id="prev-page" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-400" disabled>
+                                ← Previous
+                            </button>
+                            <span id="page-info" class="text-gray-600 font-medium"></span>
+                            <button id="next-page" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-400" disabled>
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary Button (always visible) -->
+                    <div id="summary-button-container" class="mt-4">
+                        <button id="generate-summary" class="w-full px-6 py-4 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition-colors font-bold text-lg shadow-xl">
+                            📋 Generate Configuration Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Modal -->
+        <div id="summary-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-800">📋 Configuration Summary</h2>
+                        <button id="close-summary" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div id="summary-content" class="space-y-6">
+                        <!-- Summary content will be generated here -->
+                    </div>
+                    
+                    <div class="mt-8 flex gap-3">
+                        <button id="copy-summary" class="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                            📋 Copy to Clipboard
+                        </button>
+                        <button id="export-pdf" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            📄 Export PDF
+                        </button>
+                        <button id="close-summary-btn" class="flex-1 px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM Content Loaded - Starting initialization...');
+            
+            // Device detection and layout setup
+            const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const layoutContainer = document.getElementById('layout-container');
+            const filtersColumn = document.getElementById('filters-column');
+            const resultsColumn = document.getElementById('results-column');
+            
+            console.log('📱 Device detection:', isMobile ? 'Mobile' : 'Desktop');
+            
+            // Apply layout based on device
+            if (isMobile) {
+                // Mobile layout: vertical stack
+                layoutContainer.className = 'flex flex-col gap-6';
+                filtersColumn.className = 'w-full flex flex-col order-1';
+                resultsColumn.className = 'w-full flex flex-col order-2';
+            } else {
+                // Desktop layout: horizontal columns
+                layoutContainer.className = 'flex gap-6 min-h-screen';
+                filtersColumn.className = 'w-[40%] flex flex-col';
+                resultsColumn.className = 'w-[60%] flex flex-col';
+            }
+
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const loadingElement = document.getElementById('loading');
+            const dataSection = document.getElementById('data-section');
+            const uploadSection = document.getElementById('upload-section');
+            const tableHeader = document.getElementById('table-header');
+            const tableBody = document.getElementById('table-body');
+            const rowCount = document.getElementById('row-count');
+            const prevPageBtn = document.getElementById('prev-page');
+            const nextPageBtn = document.getElementById('next-page');
+            const pageInfo = document.getElementById('page-info');
+            const filterControls = document.getElementById('filter-controls');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const debugPanel = document.getElementById('debug-panel');
+            const debugInfo = document.getElementById('debug-info');
+            const debugStatus = document.getElementById('debug-status');
+            const activeFiltersDebug = document.getElementById('active-filters-debug');
+            const availableFiltersDebug = document.getElementById('available-filters-debug');
+            const clearDebugBtn = document.getElementById('clear-debug');
+            const csvStatus = document.getElementById('csv-status');
+            const manualUploadSection = document.getElementById('manual-upload-section');
+            const toggleRegolaBtn = document.getElementById('toggle-regola');
+            const visibleCount = document.getElementById('visible-count');
+            const totalPrice = document.getElementById('total-price');
+            const commissionNumberInput = document.getElementById('commission-number');
+            const summaryButtonContainer = document.getElementById('summary-button-container');
+            const generateSummaryBtn = document.getElementById('generate-summary');
+            const summaryModal = document.getElementById('summary-modal');
+            const closeSummaryBtn = document.getElementById('close-summary');
+            const closeSummaryBtn2 = document.getElementById('close-summary-btn');
+            const copySummaryBtn = document.getElementById('copy-summary');
+            const exportPdfBtn = document.getElementById('export-pdf');
+            const summaryContent = document.getElementById('summary-content');
+
+            let csvData = [];
+            let headers = [];
+            let currentPage = 1;
+            let rowsPerPage = 30; // 30 rows per page
+            let filteredData = []; // Start empty - will be populated only when filters are selected
+            let ruleFields = {}; // Will store field names and their possible values
+            let activeFilters = {}; // Will store currently selected filter values
+            let availableFilters = {}; // Will store available filter values based on current selection
+            let debugLog = [];
+            let showRegolaColumn = false; // Toggle for REGOLA column visibility
+            let startWithEmptyList = true; // New behavior: start with empty materials list
+            // Price calculation will be done on visible rows only
+
+            console.log('🔍 Finding DOM elements...');
+            console.log('Elements found:', {
+                dropZone: !!dropZone,
+                fileInput: !!fileInput,
+                csvStatus: !!csvStatus,
+                manualUploadSection: !!manualUploadSection
+            });
+            
+            // Setup debug panel
+            setupDebugPanel();
+            
+            // Handle window resize for responsive layout
+            window.addEventListener('resize', function() {
+                const newIsMobile = window.innerWidth <= 768;
+                if (newIsMobile !== isMobile) {
+                    location.reload(); // Simple solution: reload on layout change
+                }
+            });
+            
+            // Setup file upload immediately
+            console.log('🔧 Starting file upload setup...');
+            setupFileUpload();
+
+            // Drag and drop helper functions
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                dropZone.classList.add('bg-indigo-200');
+            }
+
+            function unhighlight() {
+                dropZone.classList.remove('bg-indigo-200');
+            }
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+                        parseCSV(file);
+                    } else {
+                        alert('Please upload a valid CSV file.');
+                    }
+                }
+            }
+
+            function setupFileUpload() {
+                console.log('Setting up file upload...');
+                
+                // Try to load the CSV file automatically from the same directory immediately
+                console.log('Attempting to load regole-prodotto-WebApp-BX MOD KIT.csv...');
+                
+                // Try to fetch the CSV file from the same directory
+                fetch('./regole-prodotto-WebApp-BX MOD KIT.csv')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvContent => {
+                        console.log('CSV file loaded successfully from local directory');
+                        console.log('CSV content length:', csvContent.length);
+                        
+                        parseCSVContent(csvContent);
+                        
+                        // Show data section immediately
+                        console.log('Showing data section...');
+                        showDataSection();
+                    })
+                    .catch(error => {
+                        console.error('Failed to load CSV file:', error);
+                        
+                        // Show upload section only on error
+                        uploadSection.classList.remove('hidden');
+                        setupManualUpload();
+                        
+                        console.log('Showing manual upload due to error');
+                    });
+            }
+
+            function setupManualUpload() {
+                console.log('📁 Setting up manual upload...');
+                const selectFileBtn = document.getElementById('select-file-btn');
+                console.log('Select file button found:', !!selectFileBtn);
+                
+                if (!dropZone || !fileInput) {
+                    console.error('❌ Missing required elements for manual upload!');
+                    return;
+                }
+                
+                // Setup drag and drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, preventDefaults, false);
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, highlight, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, unhighlight, false);
+                });
+
+                dropZone.addEventListener('drop', handleDrop, false);
+                
+                // Setup click handlers
+                dropZone.addEventListener('click', () => {
+                    console.log('📁 Drop zone clicked - opening file dialog');
+                    fileInput.click();
+                });
+                
+                if (selectFileBtn) {
+                    selectFileBtn.addEventListener('click', (e) => {
+                        console.log('📁 Select file button clicked');
+                        e.stopPropagation();
+                        fileInput.click();
+                    });
+                }
+                
+                // Setup file input event listener
+                fileInput.addEventListener('change', function() {
+                    console.log('📁 File selected:', this.files.length, 'files');
+                    handleFiles(this.files);
+                });
+                
+                console.log('✅ Manual upload setup complete');
+            }
+
+            function parseCSV(file) {
+                loadingElement.classList.remove('hidden');
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    parseCSVContent(content);
+                    showDataSection();
+                };
+                reader.readAsText(file);
+            }
+
+            function parseCSVContent(content) {
+                const lines = content.split('\n').filter(line => line.trim() !== '');
+                
+                if (lines.length === 0) {
+                    alert('The CSV file is empty.');
+                    return;
+                }
+
+                // Parse headers
+                headers = lines[0].split(';').map(header => header.trim());
+                
+                // Parse data
+                csvData = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(';');
+                    const row = {};
+                    
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] ? values[index].trim() : '';
+                    });
+                    
+                    csvData.push(row);
+                }
+
+                // Don't populate filteredData initially - keep it empty until filters are selected
+                addDebugMessage(`CSV loaded: ${csvData.length} rows, ${headers.length} columns`);
+            }
+
+            function showDataSection() {
+                updateDebugStatus("Showing data section...");
+                loadingElement.classList.add('hidden');
+                uploadSection.classList.add('hidden'); // Hide upload section (it was already hidden unless error)
+                dataSection.classList.remove('hidden');
+                
+                createTable();
+                setupEventListeners();
+                updateRowCount();
+                updatePagination();
+                
+                updateDebugStatus("Initializing filters...");
+                
+                // Auto-analyze rules after loading and create filters
+                setTimeout(() => {
+                    addDebugMessage("=== FILTER INITIALIZATION START ===");
+                    addDebugMessage(`CSV Data: ${csvData.length} rows loaded`);
+                    addDebugMessage(`Headers: ${headers.join(', ')}`);
+                    
+                    parseRules();
+                    // Removed parseTypeField() - was causing initialization issues
+                    
+                    addDebugMessage(`RuleFields after parsing: ${Object.keys(ruleFields).length} fields`);
+                    Object.keys(ruleFields).forEach(field => {
+                        addDebugMessage(`  ${field}: [${ruleFields[field].join(', ')}]`);
+                    });
+                    
+                    // Initialize filters with empty materials list
+                    activeFilters = {};
+                    filteredData = []; // Start empty - materials will appear only when filters are selected
+                    
+                    // Ensure table displays empty state immediately
+                    displayTable();
+                    
+                    addDebugMessage("Updating available filters...");
+                    updateAvailableFilters();
+                    
+                    addDebugMessage("Creating filter interface...");
+                    createFilters();
+                    
+                    updateDebugStatus("Filters loaded!");
+                    addDebugMessage("=== FILTER INITIALIZATION END ===");
+                    
+                    updateActiveFiltersDisplay();
+                    updateAvailableFiltersDisplay();
+                }, 500);
+            }
+            
+            function setupDebugPanel() {
+                clearDebugBtn.addEventListener('click', () => {
+                    debugLog = [];
+                    updateDebugPanel();
+                });
+                
+                updateDebugStatus("Initializing...");
+                updateActiveFiltersDisplay();
+                updateAvailableFiltersDisplay();
+            }
+
+            function addDebugMessage(message, type = "info") {
+                const timestamp = new Date().toLocaleTimeString();
+                debugLog.push({ message, type, timestamp });
+                console.log(`[${type.toUpperCase()}] ${message}`);
+                updateDebugPanel();
+            }
+            
+            function updateDebugStatus(status) {
+                if (debugStatus) {
+                    debugStatus.textContent = status;
+                }
+            }
+            
+            function updateActiveFiltersDisplay() {
+                if (activeFiltersDebug) {
+                    if (Object.keys(activeFilters).length === 0) {
+                        activeFiltersDebug.textContent = "No active filters";
+                    } else {
+                        activeFiltersDebug.textContent = JSON.stringify(activeFilters, null, 2);
+                    }
+                }
+            }
+            
+            function updateAvailableFiltersDisplay() {
+                if (availableFiltersDebug) {
+                    const summary = {};
+                    Object.keys(availableFilters).forEach(field => {
+                        summary[field] = `${availableFilters[field].length} values`;
+                    });
+                    availableFiltersDebug.textContent = JSON.stringify(summary, null, 2);
+                }
+            }
+
+            function updateDebugPanel() {
+                if (debugInfo) {
+                    debugInfo.textContent = debugLog.slice(-50).map(log => 
+                        `[${log.timestamp}] ${log.message}`
+                    ).join('\n');
+                    debugInfo.scrollTop = debugInfo.scrollHeight;
+                }
+            }
+
+            function createTable() {
+                // Create table headers
+                tableHeader.innerHTML = '';
+                const headerRow = document.createElement('tr');
+                
+                // No selection checkbox needed
+                
+                headers.forEach(header => {
+                    // Skip TYPE column and conditionally show REGOLA
+                    if (header.toLowerCase() === 'type') return;
+                    if (header.toLowerCase() === 'regola' && !showRegolaColumn) return;
+                    
+                    const th = document.createElement('th');
+                    th.className = 'py-3 px-4 text-left font-semibold';
+                    
+                    // Special formatting for price column
+                    if (header.toLowerCase().includes('prezzo') || header.toLowerCase().includes('price')) {
+                        th.textContent = header + ' (€)';
+                        th.className += ' text-right';
+                    } else {
+                        th.textContent = header;
+                    }
+                    
+                    headerRow.appendChild(th);
+                });
+                
+                tableHeader.appendChild(headerRow);
+                
+                // Don't display data initially - table will be empty until filters are selected
+            }
+
+            function displayTable() {
+                tableBody.innerHTML = '';
+                
+                // Show empty state message when no filters are selected or no results
+                if (filteredData.length === 0) {
+                    const emptyRow = document.createElement('tr');
+                    const emptyCell = document.createElement('td');
+                    emptyCell.colSpan = headers.filter(h => {
+                        if (h.toLowerCase() === 'type') return false;
+                        if (h.toLowerCase() === 'regola' && !showRegolaColumn) return false;
+                        return true;
+                    }).length;
+                    emptyCell.className = 'py-12 px-4 text-center text-gray-500';
+                    
+                    if (Object.keys(activeFilters).length === 0) {
+                        emptyCell.innerHTML = `
+                            <div class="text-lg mb-2">🎯</div>
+                            <div class="font-medium">Select filter criteria to view materials</div>
+                            <div class="text-sm mt-1">Use the filters on the left to find matching materials</div>
+                        `;
+                    } else {
+                        emptyCell.innerHTML = `
+                            <div class="text-lg mb-2">🔍</div>
+                            <div class="font-medium">No materials match the selected criteria</div>
+                            <div class="text-sm mt-1">Try adjusting your filter selection</div>
+                        `;
+                    }
+                    
+                    emptyRow.appendChild(emptyCell);
+                    tableBody.appendChild(emptyRow);
+                    updatePriceCalculation();
+                    return;
+                }
+                
+                const startIndex = (currentPage - 1) * rowsPerPage;
+                const endIndex = Math.min(startIndex + rowsPerPage, filteredData.length);
+                
+                for (let i = startIndex; i < endIndex; i++) {
+                    const row = filteredData[i];
+                    const rowId = `row_${startIndex + i}`;
+                    const tr = document.createElement('tr');
+                    tr.className = i % 2 === 0 ? 'bg-gray-50' : 'bg-white';
+                    tr.setAttribute('data-row-id', rowId);
+                    
+                    // No selection checkbox needed
+                    
+                    headers.forEach(header => {
+                        // Skip TYPE column and conditionally show REGOLA
+                        if (header.toLowerCase() === 'type') return;
+                        if (header.toLowerCase() === 'regola' && !showRegolaColumn) return;
+                        
+                        const td = document.createElement('td');
+                        td.className = 'py-2 px-4 text-sm';
+                        
+                        // Special formatting for price column
+                        if (header.toLowerCase().includes('prezzo') || header.toLowerCase().includes('price')) {
+                            const priceValue = row[header] || '';
+                            if (priceValue && !isNaN(parseFloat(priceValue.replace(',', '.')))) {
+                                // Format as currency
+                                const numericPrice = parseFloat(priceValue.replace(',', '.'));
+                                td.textContent = numericPrice.toLocaleString('it-IT', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
+                                td.className += ' text-right font-medium text-green-700';
+                            } else {
+                                td.textContent = priceValue;
+                                td.className += ' text-right';
+                            }
+                        } else if (header.toLowerCase() === 'regola') {
+                            // Special formatting for REGOLA column - make it smaller and wrap
+                            td.className += ' text-xs text-gray-600 max-w-xs break-words';
+                            td.textContent = row[header] || '';
+                        } else {
+                            td.textContent = row[header] || '';
+                        }
+                        
+                        tr.appendChild(td);
+                    });
+                    
+                    tableBody.appendChild(tr);
+                }
+                
+                updatePriceCalculation();
+            }
+
+            function setupEventListeners() {
+                // Pagination
+                prevPageBtn.addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayTable();
+                        updatePagination();
+                    }
+                });
+
+                nextPageBtn.addEventListener('click', () => {
+                    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayTable();
+                        updatePagination();
+                    }
+                });
+
+                // Reset filters button
+                resetFiltersBtn.addEventListener('click', () => {
+                    addDebugMessage("=== RESET FILTERS ===");
+                    activeFilters = {};
+                    filteredData = []; // Reset to empty list
+                    currentPage = 1;
+                    
+                    updateActiveFiltersDisplay();
+                    updateAvailableFilters();
+                    updateAvailableFiltersDisplay();
+                    
+                    displayTable();
+                    updateRowCount();
+                    updatePagination();
+                    createFilters(); // Recreate filters to reset selections
+                    
+                    addDebugMessage("Reset completed");
+                });
+
+                // Toggle REGOLA column visibility
+                toggleRegolaBtn.addEventListener('click', () => {
+                    showRegolaColumn = !showRegolaColumn;
+                    toggleRegolaBtn.textContent = showRegolaColumn ? '📋 Hide Rules' : '📋 Show Rules';
+                    createTable(); // Recreate table with/without REGOLA column
+                    displayTable(); // Redisplay data with new column visibility
+                });
+
+                // Summary functionality
+                generateSummaryBtn.addEventListener('click', () => {
+                    generateSummary();
+                });
+
+                closeSummaryBtn.addEventListener('click', () => {
+                    summaryModal.classList.add('hidden');
+                });
+
+                closeSummaryBtn2.addEventListener('click', () => {
+                    summaryModal.classList.add('hidden');
+                });
+
+                copySummaryBtn.addEventListener('click', () => {
+                    copySummaryToClipboard();
+                });
+
+                exportPdfBtn.addEventListener('click', () => {
+                    exportSummaryToPDF();
+                });
+
+                // Close modal when clicking outside
+                summaryModal.addEventListener('click', (e) => {
+                    if (e.target === summaryModal) {
+                        summaryModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            function updateRowCount() {
+                if (filteredData.length === 0 && Object.keys(activeFilters).length === 0) {
+                    rowCount.textContent = `Select filters to view materials`;
+                } else {
+                    rowCount.textContent = `${filteredData.length} materials`;
+                }
+            }
+
+            function updatePagination() {
+                const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+            }
+
+            // Completely rewritten parseRules function with ultra-precise field isolation
+            function parseRules(regolaColumn = 'REGOLA') {
+                addDebugMessage("Starting ULTRA-PRECISE rule analysis...");
+                ruleFields = {};
+                
+                // Find the correct column name (case insensitive)
+                const actualColumn = headers.find(h => h.toLowerCase() === regolaColumn.toLowerCase()) || regolaColumn;
+                
+                // Process each row's REGOLA column
+                let ruleCount = 0;
+                
+                csvData.forEach((row, index) => {
+                    const ruleText = row[actualColumn];
+                    if (!ruleText) return;
+                    
+                    ruleCount++;
+                    if (ruleCount <= 5) {
+                        addDebugMessage(`Analyzing rule #${index+1}: "${ruleText}"`);
+                    }
+                    
+                    // Remove square brackets for parsing
+                    let cleanRuleText = ruleText.replace(/[\[\]]/g, '').trim();
+                    
+                    if (ruleCount <= 5) {
+                        addDebugMessage(`  Clean rule: "${cleanRuleText}"`);
+                    }
+                    
+                    // Parse with ultra-precise field isolation
+                    parseWithUltraPrecision(cleanRuleText, ruleCount);
+                });
+                
+                // Convert Sets to Arrays and sort
+                Object.keys(ruleFields).forEach(field => {
+                    ruleFields[field] = Array.from(ruleFields[field]).sort();
+                });
+                
+                addDebugMessage(`Analysis completed. Found ${Object.keys(ruleFields).length} fields in ${ruleCount} rules.`);
+                addDebugMessage("Final extracted fields and values:");
+                Object.keys(ruleFields).forEach(field => {
+                    addDebugMessage(`  ${field}: [${ruleFields[field].join(', ')}]`);
+                });
+                
+                updateDebugPanel();
+            }
+
+            function parseWithUltraPrecision(ruleText, ruleCount) {
+                // Split by AND/OR first to get individual conditions
+                const conditions = ruleText.split(/\s+(?:AND|OR)\s+/i);
+                
+                if (ruleCount <= 5) {
+                    addDebugMessage(`  Split into ${conditions.length} conditions: [${conditions.join(' | ')}]`);
+                }
+                
+                conditions.forEach((condition, condIndex) => {
+                    const trimmedCondition = condition.trim();
+                    
+                    // Look for exact FIELD=VALUE pattern
+                    const exactMatch = trimmedCondition.match(/^(\w+)\s*=\s*(.+)$/);
+                    
+                    if (exactMatch) {
+                        const field = exactMatch[1].trim();
+                        const valuesPart = exactMatch[2].trim();
+                        
+                        if (ruleCount <= 5) {
+                            addDebugMessage(`    Condition ${condIndex+1}: Field="${field}", Values="${valuesPart}"`);
+                        }
+                        
+                        // Initialize field if not exists
+                        if (!ruleFields[field]) {
+                            ruleFields[field] = new Set();
+                        }
+                        
+                        // Extract values with ultra-strict validation
+                        extractValuesUltraPrecise(field, valuesPart, ruleCount, condIndex);
+                    } else if (ruleCount <= 5) {
+                        addDebugMessage(`    Condition ${condIndex+1}: REJECTED - doesn't match FIELD=VALUE pattern: "${trimmedCondition}"`);
+                    }
+                });
+            }
+
+            function extractValuesUltraPrecise(field, valuesPart, ruleCount, condIndex) {
+                if (ruleCount <= 5) {
+                    addDebugMessage(`      Extracting values for ${field} from: "${valuesPart}"`);
+                }
+                
+                // Handle parentheses for multiple values
+                if (valuesPart.startsWith('(') && valuesPart.endsWith(')')) {
+                    // Extract content within parentheses
+                    const innerValues = valuesPart.slice(1, -1);
+                    const values = innerValues.split(',').map(v => v.trim()).filter(v => v && v !== '');
+                    
+                    if (ruleCount <= 5) {
+                        addDebugMessage(`        Multi-value detected: [${values.join(', ')}]`);
+                    }
+                    
+                    values.forEach(value => {
+                        const cleanValue = value.trim();
+                        if (isValidValue(cleanValue)) {
+                            ruleFields[field].add(cleanValue);
+                            if (ruleCount <= 5) {
+                                addDebugMessage(`          ✓ Added: "${cleanValue}"`);
+                            }
+                        } else if (ruleCount <= 5) {
+                            addDebugMessage(`          ✗ Rejected: "${cleanValue}"`);
+                        }
+                    });
+                } else {
+                    // Single value - ultra-strict validation
+                    const cleanValue = valuesPart.trim();
+                    
+                    if (ruleCount <= 5) {
+                        addDebugMessage(`        Single value detected: "${cleanValue}"`);
+                    }
+                    
+                    if (isValidValue(cleanValue)) {
+                        ruleFields[field].add(cleanValue);
+                        if (ruleCount <= 5) {
+                            addDebugMessage(`          ✓ Added: "${cleanValue}"`);
+                        }
+                    } else if (ruleCount <= 5) {
+                        addDebugMessage(`          ✗ Rejected: "${cleanValue}"`);
+                    }
+                }
+            }
+
+            function isValidValue(value) {
+                // Ultra-strict validation: reject anything that looks like it contains other field data
+                if (!value || value.trim() === '') return false;
+                if (value.includes('=')) return false;
+                if (value.toUpperCase().includes('AND')) return false;
+                if (value.toUpperCase().includes('OR')) return false;
+                if (value.includes('(') || value.includes(')')) return false;
+                
+                // Additional check: reject if it looks like multiple words that might be field names
+                const words = value.trim().split(/\s+/);
+                if (words.length > 3) return false; // Reject overly long "values"
+                
+                return true;
+            }
+
+
+
+            function createFilters() {
+                addDebugMessage("=== CREATING FILTERS ===");
+                
+                if (Object.keys(ruleFields).length === 0) {
+                    addDebugMessage("ERROR: No fields found in ruleFields!", "error");
+                    return;
+                }
+
+                const container = document.getElementById('filter-container');
+                container.innerHTML = '';
+                
+                addDebugMessage(`Creating filters for ${Object.keys(ruleFields).length} fields`);
+
+                Object.keys(ruleFields).forEach(field => {
+                    addDebugMessage(`Creating filter for field: ${field}`);
+                    
+                    const fieldDiv = document.createElement('div');
+                    fieldDiv.className = 'bg-gray-50 p-4 rounded-lg border';
+                    
+                    const fieldTitle = document.createElement('h4');
+                    fieldTitle.className = 'font-semibold text-gray-800 mb-3';
+                    fieldTitle.textContent = field;
+                    fieldDiv.appendChild(fieldTitle);
+                    
+                    const valuesDiv = document.createElement('div');
+                    valuesDiv.className = 'flex flex-wrap gap-2';
+                    
+                    const availableValues = availableFilters[field] || [];
+                    const allValues = ruleFields[field] || [];
+                    
+                    addDebugMessage(`  Field ${field}: ${allValues.length} total values, ${availableValues.length} available`);
+                    addDebugMessage(`  Total values: [${allValues.join(', ')}]`);
+                    addDebugMessage(`  Available values: [${availableValues.join(', ')}]`);
+                    
+                    allValues.forEach(value => {
+                        const button = document.createElement('button');
+                        const isSelected = activeFilters[field] === value;
+                        const isAvailable = availableValues.includes(value);
+                        
+                        addDebugMessage(`    Value "${value}": selected=${isSelected}, available=${isAvailable}`);
+                        
+                        if (isSelected) {
+                            button.className = 'px-3 py-1 bg-red-600 text-white rounded-full text-sm font-medium';
+                        } else if (isAvailable) {
+                            button.className = 'px-3 py-1 bg-white text-gray-700 border border-gray-300 rounded-full text-sm hover:bg-gray-50 cursor-pointer';
+                        } else {
+                            button.className = 'px-3 py-1 bg-gray-200 text-gray-400 border border-gray-200 rounded-full text-sm cursor-not-allowed opacity-50';
+                            button.disabled = true;
+                        }
+                        
+                        button.textContent = value;
+                        
+                        if (!button.disabled) {
+                            button.addEventListener('click', () => {
+                                addDebugMessage(`Click on ${field}=${value}`);
+                                
+                                if (activeFilters[field] === value) {
+                                    // Deselect
+                                    addDebugMessage(`Deselecting ${field}=${value}`);
+                                    delete activeFilters[field];
+                                } else {
+                                    // Select
+                                    addDebugMessage(`Selecting ${field}=${value}`);
+                                    activeFilters[field] = value;
+                                }
+                                
+                                updateActiveFiltersDisplay();
+                                applyFilters();
+                                updateAvailableFilters();
+                                updateAvailableFiltersDisplay();
+                                createFilters(); // Recreate to update available options
+                            });
+                        }
+                        
+                        valuesDiv.appendChild(button);
+                    });
+                    
+                    fieldDiv.appendChild(valuesDiv);
+                    container.appendChild(fieldDiv);
+                });
+                
+                addDebugMessage("=== END FILTER CREATION ===");
+            }
+
+            function updateAvailableFilters() {
+                addDebugMessage("=== UPDATING AVAILABLE FILTERS ===");
+                availableFilters = {};
+                
+                addDebugMessage(`Current active filters: ${JSON.stringify(activeFilters)}`);
+                
+                if (Object.keys(activeFilters).length === 0) {
+                    // No filters active - all values should be available
+                    Object.keys(ruleFields).forEach(field => {
+                        availableFilters[field] = [...ruleFields[field]];
+                    });
+                    addDebugMessage("No active filters - all values available for all fields");
+                    return;
+                }
+                
+                // Get current result set (materials that would be shown with current filters)
+                const currentResultSet = getCurrentResultSet();
+                addDebugMessage(`Current result set has ${currentResultSet.length} materials`);
+                
+                // For each field, find values that exist in the current result set
+                Object.keys(ruleFields).forEach(field => {
+                    addDebugMessage(`Calculating available values for field: ${field}`);
+                    availableFilters[field] = new Set();
+                    
+                    // Extract values from all materials in current result set
+                    currentResultSet.forEach((row, index) => {
+                        const ruleText = row[headers.find(h => h.toLowerCase() === 'regola')] || '';
+                        
+                        if (index < 5) {
+                            addDebugMessage(`  Material ${index+1}: "${ruleText}"`);
+                        }
+                        
+                        // Extract values for this field from the material's REGOLA
+                        const fieldValues = extractFieldValuesFromRule(ruleText, field);
+                        
+                        if (index < 5) {
+                            addDebugMessage(`    Values for ${field}: [${fieldValues.join(', ')}]`);
+                        }
+                        
+                        fieldValues.forEach(value => {
+                            if (value && value.trim()) {
+                                availableFilters[field].add(value.trim());
+                            }
+                        });
+                        
+                        // Check if this material has no restrictions on this field
+                        // If so, add all possible values for this field
+                        const restrictedFields = extractRestrictedFields(ruleText);
+                        if (!restrictedFields.includes(field)) {
+                            ruleFields[field].forEach(value => {
+                                availableFilters[field].add(value);
+                            });
+                            if (index < 5) {
+                                addDebugMessage(`    Material has no restrictions on ${field} - added all values`);
+                            }
+                        }
+                    });
+                    
+                    availableFilters[field] = Array.from(availableFilters[field]).sort();
+                    addDebugMessage(`  Field ${field}: ${availableFilters[field].length} available values`);
+                    addDebugMessage(`  Available values: [${availableFilters[field].join(', ')}]`);
+                });
+                
+                addDebugMessage("=== END UPDATING AVAILABLE FILTERS ===");
+            }
+
+            function getCurrentResultSet() {
+                // This function returns the materials that would be shown with current active filters
+                // Same logic as applyFilters but without updating filteredData
+                
+                if (Object.keys(activeFilters).length === 0) {
+                    return []; // Empty when no filters
+                }
+                
+                // Use the same logic as applyFilters
+                return csvData.filter(row => {
+                    return matchesAllFilters(row, activeFilters);
+                });
+            }
+
+            function extractFieldValuesFromRule(ruleText, targetField) {
+                const values = [];
+                let cleanRuleText = ruleText.replace(/[\[\]]/g, '').trim();
+                
+                // Split by AND/OR first to get individual conditions (same as parsing)
+                const conditions = cleanRuleText.split(/\s+(?:AND|OR)\s+/i);
+                
+                conditions.forEach(condition => {
+                    const trimmedCondition = condition.trim();
+                    
+                    // Look for exact FIELD=VALUE pattern
+                    const exactMatch = trimmedCondition.match(/^(\w+)\s*=\s*(.+)$/);
+                    
+                    if (exactMatch) {
+                        const field = exactMatch[1].trim();
+                        const valuesPart = exactMatch[2].trim();
+                        
+                        if (field === targetField) {
+                            // Handle parentheses for multiple values
+                            if (valuesPart.startsWith('(') && valuesPart.endsWith(')')) {
+                                const innerValues = valuesPart.slice(1, -1);
+                                const multiValues = innerValues.split(',').map(v => v.trim()).filter(v => v && v !== '');
+                                
+                                multiValues.forEach(value => {
+                                    if (isValidValue(value)) {
+                                        values.push(value);
+                                    }
+                                });
+                            } else {
+                                // Single value - ultra-strict validation
+                                if (isValidValue(valuesPart)) {
+                                    values.push(valuesPart);
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                return values;
+            }
+
+            function matchesAllFilters(row, filters) {
+                if (Object.keys(filters).length === 0) {
+                    return true;
+                }
+                
+                const ruleText = row[headers.find(h => h.toLowerCase() === 'regola')] || '';
+                const materialId = row.ID || row.id || 'unknown';
+                
+                addDebugMessage(`Checking material ${materialId} with rule: "${ruleText}"`);
+                
+                // Check if this material has ANY restrictions in its REGOLA
+                if (!ruleText || ruleText.trim() === '') {
+                    // No restrictions - this is a general material, matches everything
+                    addDebugMessage(`  Material ${materialId}: No restrictions - MATCHES`);
+                    return true;
+                }
+                
+                // Parse the rule to understand what fields it restricts
+                const restrictedFields = extractRestrictedFields(ruleText);
+                addDebugMessage(`  Material ${materialId} restricts fields: [${restrictedFields.join(', ')}]`);
+                
+                // For each active filter, check if the material matches
+                for (const [field, value] of Object.entries(filters)) {
+                    addDebugMessage(`  Checking filter ${field}=${value}`);
+                    
+                    if (restrictedFields.includes(field)) {
+                        // Material has restrictions on this field - must match exactly
+                        const matches = matchesRuleFilter(ruleText, field, value);
+                        addDebugMessage(`    Field ${field} is restricted - exact match: ${matches}`);
+                        if (!matches) {
+                            addDebugMessage(`  Material ${materialId}: REJECTED - doesn't match ${field}=${value}`);
+                            return false;
+                        }
+                    } else {
+                        // Material doesn't restrict this field - it's compatible with any value
+                        addDebugMessage(`    Field ${field} is not restricted - compatible with any value`);
+                    }
+                }
+                
+                addDebugMessage(`  Material ${materialId}: MATCHES all filters`);
+                return true;
+            }
+
+            function matchesRuleFilter(ruleText, field, value) {
+                let cleanRule = ruleText.replace(/[\[\]]/g, '').trim();
+                
+                // Split by AND/OR first to get individual conditions (same as parsing)
+                const conditions = cleanRule.split(/\s+(?:AND|OR)\s+/i);
+                
+                for (const condition of conditions) {
+                    const trimmedCondition = condition.trim();
+                    
+                    // Look for exact FIELD=VALUE pattern
+                    const exactMatch = trimmedCondition.match(/^(\w+)\s*=\s*(.+)$/);
+                    
+                    if (exactMatch) {
+                        const conditionField = exactMatch[1].trim();
+                        const valuesPart = exactMatch[2].trim();
+                        
+                        if (conditionField === field) {
+                            // Handle parentheses for multiple values
+                            if (valuesPart.startsWith('(') && valuesPart.endsWith(')')) {
+                                const innerValues = valuesPart.slice(1, -1);
+                                const multiValues = innerValues.split(',').map(v => v.trim()).filter(v => v && v !== '');
+                                
+                                // Check if any of the valid values match
+                                for (const multiValue of multiValues) {
+                                    if (isValidValue(multiValue) && multiValue === value) {
+                                        return true;
+                                    }
+                                }
+                            } else {
+                                // Single value - ultra-strict validation and comparison
+                                if (isValidValue(valuesPart) && valuesPart === value) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return false;
+            }
+
+            function isGeneralMaterial(row, currentActiveFilters) {
+                // Find REGOLA column
+                const regolaColumn = headers.find(h => h.toLowerCase() === 'regola');
+                if (!regolaColumn) return false;
+                
+                const ruleText = row[regolaColumn] || '';
+                const cleanRule = ruleText.replace(/[\[\]]/g, '').trim();
+                const materialId = row.ID || row.id || 'unknown';
+                
+                // Consider a material "general" if:
+                // 1. No REGOLA at all (empty or whitespace) - these are universal
+                if (!cleanRule || cleanRule === '') {
+                    addDebugMessage(`Material ${materialId} is general: empty REGOLA`);
+                    return true;
+                }
+                
+                // 2. REGOLA doesn't contain ANY of the currently active filter fields
+                // This means the material doesn't have restrictions on the fields we're filtering by
+                const activeFilterFields = Object.keys(currentActiveFilters);
+                const hasAnyActiveFilterField = activeFilterFields.some(field => {
+                    const fieldPattern = new RegExp(`\\b${field}\\s*=`, 'i');
+                    const hasField = fieldPattern.test(cleanRule);
+                    if (hasField) {
+                        addDebugMessage(`Material ${materialId} has restriction on active filter field ${field}`);
+                    }
+                    return hasField;
+                });
+                
+                if (!hasAnyActiveFilterField && activeFilterFields.length > 0) {
+                    addDebugMessage(`Material ${materialId} is general: no restrictions on active filter fields [${activeFilterFields.join(', ')}] in REGOLA "${cleanRule}"`);
+                    return true;
+                }
+                
+                // 3. Check if REGOLA has restrictions on other fields but not on active ones
+                // Parse the rule to see what fields it actually restricts
+                const restrictedFields = extractRestrictedFields(cleanRule);
+                const hasRestrictionsOnActiveFields = activeFilterFields.some(field => 
+                    restrictedFields.includes(field)
+                );
+                
+                if (!hasRestrictionsOnActiveFields && restrictedFields.length > 0) {
+                    addDebugMessage(`Material ${materialId} is general: has restrictions on [${restrictedFields.join(', ')}] but not on active fields [${activeFilterFields.join(', ')}]`);
+                    return true;
+                }
+                
+                return false;
+            }
+
+            function extractRestrictedFields(ruleText) {
+                const fields = [];
+                const cleanRule = ruleText.replace(/[\[\]]/g, '').trim();
+                
+                // Split by AND/OR to get individual conditions
+                const conditions = cleanRule.split(/\s+(?:AND|OR)\s+/i);
+                
+                conditions.forEach(condition => {
+                    const trimmedCondition = condition.trim();
+                    const exactMatch = trimmedCondition.match(/^(\w+)\s*=\s*(.+)$/);
+                    
+                    if (exactMatch) {
+                        const field = exactMatch[1].trim();
+                        if (!fields.includes(field)) {
+                            fields.push(field);
+                        }
+                    }
+                });
+                
+                return fields;
+            }
+
+            function applyFilters() {
+                addDebugMessage("=== APPLYING FILTERS ===");
+                addDebugMessage(`Active filters: ${JSON.stringify(activeFilters)}`);
+                
+                if (Object.keys(activeFilters).length === 0) {
+                    // No filters selected - keep materials list empty
+                    filteredData = [];
+                    addDebugMessage("No filters selected - materials list remain empty");
+                } else {
+                    // Apply filters and show matching materials + general materials
+                    addDebugMessage("Finding specific matches...");
+                    const specificMatches = csvData.filter(row => {
+                        const matches = matchesAllFilters(row, activeFilters);
+                        if (matches) {
+                            const materialId = row.ID || row.id || 'unknown';
+                            addDebugMessage(`  Material ${materialId} matches specific filters`);
+                        }
+                        return matches;
+                    });
+                    
+                    // The matchesAllFilters function now handles both specific and general materials
+                    // No need for separate general material logic
+                    filteredData = specificMatches;
+                    addDebugMessage(`Final result: ${filteredData.length} total materials`);
+                    
+                    // Log first few results for debugging
+                    addDebugMessage("First few results:");
+                    filteredData.slice(0, 5).forEach((row, index) => {
+                        const materialId = row.ID || row.id || 'unknown';
+                        const ruleText = row[headers.find(h => h.toLowerCase() === 'regola')] || '';
+                        addDebugMessage(`  ${index + 1}. ${materialId}: "${ruleText}"`);
+                    });
+                }
+                
+                addDebugMessage("=== END APPLYING FILTERS ===");
+                
+                currentPage = 1;
+                displayTable();
+                updateRowCount();
+                updatePagination();
+            }
+
+            // Price calculation functions removed - now calculated automatically on visible rows
+
+            function updatePriceCalculation() {
+                let totalAmount = 0;
+                let visibleRowCount = 0;
+                
+                // Find price column
+                const priceColumn = headers.find(h => 
+                    h.toLowerCase().includes('prezzo') || h.toLowerCase().includes('price')
+                );
+                
+                if (priceColumn) {
+                    const startIndex = (currentPage - 1) * rowsPerPage;
+                    const endIndex = Math.min(startIndex + rowsPerPage, filteredData.length);
+                    
+                    for (let i = startIndex; i < endIndex; i++) {
+                        const rowData = filteredData[i];
+                        const priceValue = rowData[priceColumn] || '';
+                        
+                        if (priceValue && !isNaN(parseFloat(priceValue.replace(',', '.')))) {
+                            const numericPrice = parseFloat(priceValue.replace(',', '.'));
+                            totalAmount += numericPrice;
+                        }
+                        visibleRowCount++;
+                    }
+                }
+                
+                // Update display
+                visibleCount.textContent = visibleRowCount;
+                totalPrice.textContent = totalAmount.toLocaleString('it-IT', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            function generateSummary() {
+                console.log('=== GENERATE SUMMARY CLICKED ===');
+                console.log('Rule fields available:', Object.keys(ruleFields));
+                console.log('Active filters:', activeFilters);
+                console.log('Filtered data length:', filteredData.length);
+                
+                try {
+                    // Check if we have any rule fields
+                    if (Object.keys(ruleFields).length === 0) {
+                        alert('❌ ERROR: No filter fields available. Please wait for the data to load completely.');
+                        return;
+                    }
+                    
+                    // Check if all fields have a selection
+                    const missingFields = [];
+                    Object.keys(ruleFields).forEach(field => {
+                        if (!activeFilters[field] || activeFilters[field].trim() === '') {
+                            missingFields.push(field);
+                        }
+                    });
+                    
+                    if (missingFields.length > 0) {
+                        alert(`❌ ERROR: Please select a value for all filter fields.\n\nMissing selections for:\n• ${missingFields.join('\n• ')}`);
+                        return;
+                    }
+                    
+                    console.log('✅ All validations passed, generating summary...');
+                    
+                    // Generate the summary
+                    const commissionNumber = commissionNumberInput.value.trim();
+                    const currentDate = new Date().toLocaleDateString('it-IT');
+                    const currentTime = new Date().toLocaleTimeString('it-IT');
+                    
+                    // Calculate total price
+                    let totalPrice = 0;
+                    const priceColumn = headers.find(h => 
+                        h.toLowerCase().includes('prezzo') || h.toLowerCase().includes('price')
+                    );
+                    
+                    if (priceColumn) {
+                        filteredData.forEach(row => {
+                            const priceValue = row[priceColumn] || '';
+                            if (priceValue && !isNaN(parseFloat(priceValue.replace(',', '.')))) {
+                                totalPrice += parseFloat(priceValue.replace(',', '.'));
+                            }
+                        });
+                    }
+                    
+                    let summaryHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                            <div class="text-center mb-4">
+                                <div class="text-xl font-bold text-red-600 mb-2">Schindler</div>
+                                <div class="text-2xl font-bold text-gray-800">BX MOD KIT Configuration</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="font-medium text-gray-600">Commission Number:</span>
+                                    <div class="font-bold text-lg text-red-600">${commissionNumber || 'Not specified'}</div>
+                                </div>
+                                <div>
+                                    <span class="font-medium text-gray-600">Generated:</span>
+                                    <div class="font-medium">${currentDate} at ${currentTime}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4">Selected Configuration</h3>
+                            <div class="space-y-3">
+                    `;
+                    
+                    // Add each selected filter
+                    Object.keys(activeFilters).forEach(field => {
+                        const value = activeFilters[field];
+                        summaryHTML += `
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                <span class="font-medium text-gray-700">${field}:</span>
+                                <span class="font-bold text-red-600 bg-red-100 px-3 py-1 rounded-full text-sm">${value}</span>
+                            </div>
+                        `;
+                    });
+                    
+                    summaryHTML += `
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-green-800">Materials Found:</span>
+                                    <span class="font-bold text-green-800 text-lg">${filteredData.length} items</span>
+                                </div>
+                                ${priceColumn ? `
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-green-800">Total Price:</span>
+                                    <span class="font-bold text-green-800 text-lg">€ ${totalPrice.toLocaleString('it-IT', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    
+                    console.log('Summary HTML generated, showing modal...');
+                    summaryContent.innerHTML = summaryHTML;
+                    summaryModal.classList.remove('hidden');
+                    console.log('Modal should now be visible');
+                    
+                } catch (error) {
+                    console.error('Error generating summary:', error);
+                    alert('❌ ERROR: Failed to generate summary. Check console for details.');
+                }
+            }
+
+            function copySummaryToClipboard() {
+                const commissionNumber = commissionNumberInput.value.trim();
+                const currentDate = new Date().toLocaleDateString('it-IT');
+                const currentTime = new Date().toLocaleTimeString('it-IT');
+                
+                // Calculate total price
+                let totalPrice = 0;
+                const priceColumn = headers.find(h => 
+                    h.toLowerCase().includes('prezzo') || h.toLowerCase().includes('price')
+                );
+                
+                if (priceColumn) {
+                    filteredData.forEach(row => {
+                        const priceValue = row[priceColumn] || '';
+                        if (priceValue && !isNaN(parseFloat(priceValue.replace(',', '.')))) {
+                            totalPrice += parseFloat(priceValue.replace(',', '.'));
+                        }
+                    });
+                }
+                
+                let summaryText = `SCHINDLER - BX MOD KIT Configuration\n`;
+                summaryText += `${'='.repeat(50)}\n\n`;
+                summaryText += `Commission Number: ${commissionNumber || 'Not specified'}\n`;
+                summaryText += `Generated: ${currentDate} at ${currentTime}\n\n`;
+                summaryText += `SELECTED CONFIGURATION:\n`;
+                summaryText += `${'-'.repeat(30)}\n`;
+                
+                Object.keys(activeFilters).forEach(field => {
+                    const value = activeFilters[field];
+                    summaryText += `${field}: ${value}\n`;
+                });
+                
+                summaryText += `\nRESULTS:\n`;
+                summaryText += `${'-'.repeat(30)}\n`;
+                summaryText += `Materials Found: ${filteredData.length} items\n`;
+                if (priceColumn) {
+                    summaryText += `Total Price: € ${totalPrice.toLocaleString('it-IT', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}\n`;
+                }
+                
+                navigator.clipboard.writeText(summaryText).then(() => {
+                    // Show success feedback
+                    const originalText = copySummaryBtn.textContent;
+                    copySummaryBtn.textContent = '✅ Copied!';
+                    copySummaryBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    copySummaryBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    
+                    setTimeout(() => {
+                        copySummaryBtn.textContent = originalText;
+                        copySummaryBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        copySummaryBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy to clipboard. Please try again.');
+                });
+            }
+
+            function exportSummaryToPDF() {
+                try {
+                    const commissionNumber = commissionNumberInput.value.trim();
+                    const currentDate = new Date().toLocaleDateString('it-IT');
+                    const currentTime = new Date().toLocaleTimeString('it-IT');
+                    
+                    // Calculate total price
+                    let totalPrice = 0;
+                    const priceColumn = headers.find(h => 
+                        h.toLowerCase().includes('prezzo') || h.toLowerCase().includes('price')
+                    );
+                    
+                    if (priceColumn) {
+                        filteredData.forEach(row => {
+                            const priceValue = row[priceColumn] || '';
+                            if (priceValue && !isNaN(parseFloat(priceValue.replace(',', '.')))) {
+                                totalPrice += parseFloat(priceValue.replace(',', '.'));
+                            }
+                        });
+                    }
+                    
+                    // Create a new window for PDF generation
+                    const printWindow = window.open('', '_blank');
+                    
+                    const pdfContent = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>BX MOD KIT Configuration Summary</title>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    margin: 40px;
+                                    color: #333;
+                                    line-height: 1.6;
+                                }
+                                .header {
+                                    text-align: center;
+                                    border-bottom: 3px solid #DC2626;
+                                    padding-bottom: 20px;
+                                    margin-bottom: 30px;
+                                }
+                                .company-name {
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    color: #DC2626;
+                                    margin-bottom: 10px;
+                                }
+                                .title {
+                                    font-size: 28px;
+                                    font-weight: bold;
+                                    color: #1F2937;
+                                }
+                                .info-section {
+                                    background-color: #FEF2F2;
+                                    border: 1px solid #FECACA;
+                                    border-radius: 8px;
+                                    padding: 20px;
+                                    margin-bottom: 30px;
+                                }
+                                .info-grid {
+                                    display: grid;
+                                    grid-template-columns: 1fr 1fr;
+                                    gap: 20px;
+                                }
+                                .info-item {
+                                    margin-bottom: 10px;
+                                }
+                                .info-label {
+                                    font-weight: 600;
+                                    color: #6B7280;
+                                    font-size: 14px;
+                                }
+                                .info-value {
+                                    font-weight: bold;
+                                    font-size: 18px;
+                                    color: #DC2626;
+                                }
+                                .config-section {
+                                    background-color: #F9FAFB;
+                                    border-radius: 8px;
+                                    padding: 20px;
+                                    margin-bottom: 30px;
+                                }
+                                .section-title {
+                                    font-size: 20px;
+                                    font-weight: bold;
+                                    color: #1F2937;
+                                    margin-bottom: 20px;
+                                }
+                                .config-item {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    padding: 12px 0;
+                                    border-bottom: 1px solid #E5E7EB;
+                                }
+                                .config-item:last-child {
+                                    border-bottom: none;
+                                }
+                                .config-label {
+                                    font-weight: 600;
+                                    color: #374151;
+                                }
+                                .config-value {
+                                    font-weight: bold;
+                                    color: #DC2626;
+                                    background-color: #FEE2E2;
+                                    padding: 6px 12px;
+                                    border-radius: 20px;
+                                    font-size: 14px;
+                                }
+                                .results-section {
+                                    background-color: #F0FDF4;
+                                    border: 1px solid #BBF7D0;
+                                    border-radius: 8px;
+                                    padding: 20px;
+                                }
+                                .results-grid {
+                                    display: grid;
+                                    grid-template-columns: 1fr 1fr;
+                                    gap: 20px;
+                                }
+                                .result-item {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                }
+                                .result-label {
+                                    font-weight: 600;
+                                    color: #166534;
+                                }
+                                .result-value {
+                                    font-weight: bold;
+                                    color: #166534;
+                                    font-size: 18px;
+                                }
+                                @media print {
+                                    body { margin: 20px; }
+                                    .no-print { display: none; }
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="header">
+                                <div class="company-name">Schindler</div>
+                                <div class="title">BX MOD KIT Configuration</div>
+                            </div>
+                            
+                            <div class="info-section">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">Commission Number:</div>
+                                        <div class="info-value">${commissionNumber || 'Not specified'}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Generated:</div>
+                                        <div class="info-value">${currentDate} at ${currentTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <div class="section-title">Selected Configuration</div>
+                                ${Object.keys(activeFilters).map(field => `
+                                    <div class="config-item">
+                                        <span class="config-label">${field}:</span>
+                                        <span class="config-value">${activeFilters[field]}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="results-section">
+                                <div class="section-title">Results Summary</div>
+                                <div class="results-grid">
+                                    <div class="result-item">
+                                        <span class="result-label">Materials Found:</span>
+                                        <span class="result-value">${filteredData.length} items</span>
+                                    </div>
+                                    ${priceColumn ? `
+                                    <div class="result-item">
+                                        <span class="result-label">Total Price:</span>
+                                        <span class="result-value">€ ${totalPrice.toLocaleString('it-IT', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}</span>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="no-print" style="margin-top: 30px; text-align: center;">
+                                <button onclick="window.print()" style="background-color: #DC2626; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+                                    Print / Save as PDF
+                                </button>
+                                <button onclick="window.close()" style="background-color: #6B7280; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-left: 10px;">
+                                    Close
+                                </button>
+                            </div>
+                        </body>
+                        </html>
+                    `;
+                    
+                    printWindow.document.write(pdfContent);
+                    printWindow.document.close();
+                    
+                    // Show success feedback
+                    const originalText = exportPdfBtn.textContent;
+                    exportPdfBtn.textContent = '✅ PDF Ready!';
+                    exportPdfBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    exportPdfBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    
+                    setTimeout(() => {
+                        exportPdfBtn.textContent = originalText;
+                        exportPdfBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        exportPdfBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                    }, 3000);
+                    
+                } catch (error) {
+                    console.error('Error exporting PDF:', error);
+                    alert('❌ ERROR: Failed to export PDF. Please try again.');
+                }
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a57b8ad547bdd9',t:'MTc1NzA3Mjc0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
